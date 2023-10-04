@@ -1,0 +1,5 @@
+name: Orbed
+version: '${project.version}'
+main: com.carterz30cal.orbed.Orbed
+api-version: '1.20'
+authors: [carterz30cal]
