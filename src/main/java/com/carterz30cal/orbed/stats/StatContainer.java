@@ -2,7 +2,9 @@ package com.carterz30cal.orbed.stats;
 
 import com.carterz30cal.orbed.maths.StatValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StatContainer implements Cloneable {
@@ -17,6 +19,20 @@ public class StatContainer implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    /**
+     * A method for getting valid stats from a container.
+     * Particularly useful for designing item lore.
+     * @return All stats from this StatContainer which are not 0.
+     */
+    public List<Statistic> getAllValid() {
+        List<Statistic> valid = new ArrayList<>();
+        for (Statistic stat : stats.keySet()) {
+            if (get(stat) != 0L) valid.add(stat);
+        }
+
+        return valid;
     }
 
     public void add(StatContainer stats) {

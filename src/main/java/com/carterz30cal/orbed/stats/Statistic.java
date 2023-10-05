@@ -8,4 +8,9 @@ public enum Statistic {
     private String statIcon;
     private ChatColor statColour;
     private StatType statType;
+
+    @Override
+    public String toString() {
+        return statColour + statIcon + " " + statName;
+    }
 }

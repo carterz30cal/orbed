@@ -2,6 +2,7 @@ package com.carterz30cal.orbed.items;
 
 import com.carterz30cal.orbed.Orbed;
 import com.carterz30cal.orbed.stats.StatContainer;
+import com.carterz30cal.orbed.stats.Statistic;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,6 +40,14 @@ public class Item {
         ordinal = Math.min(ordinal, ItemRarity.values().length - 1);
 
         return ItemRarity.values()[ordinal];
+    }
+
+    public StatContainer getStats() {
+        return stats;
+    }
+
+    public Long getStat(Statistic stat) {
+        return stats.get(stat, false);
     }
 
     public static Item getFromItemStack(ItemStack stack) {

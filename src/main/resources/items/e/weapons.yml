@@ -1,0 +1,11 @@
+rusty_dagger:
+  name: Rusty Dagger
+  type: WEAPON
+  rarity: E
+  material: IRON_SWORD
+  stats:
+    forced-stats:
+      DAMAGE: +9
+    chosen-stats:
+      STRENGTH: 1-10
+      POWER: 1-10

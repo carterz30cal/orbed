@@ -3,15 +3,40 @@ package com.carterz30cal.orbed.items;
 import com.carterz30cal.orbed.maths.Range;
 import com.carterz30cal.orbed.stats.StatContainer;
 import com.carterz30cal.orbed.stats.Statistic;
+import com.carterz30cal.orbed.utils.FileUtils;
 import com.carterz30cal.orbed.utils.StringUtils;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public final class ItemFactory {
+    private static final String[] files = {
+      "items/e/weapons"
+    };
+
+    public static void initItems() {
+        int count = 0;
+        for (String f : files) {
+            FileConfiguration data = FileUtils.getData(f);
+
+            assert data != null;
+            for (String key : data.getKeys(false)) {
+                count++;
+                new ItemTemplate(Objects.requireNonNull(data.getConfigurationSection(key)));
+            }
+        }
+
+        System.out.printf("Initialised %d unique items.%n", count);
+    }
+
+    static {
+
+    }
 
     public static Item generateItem(ItemTemplate template) {
         StatContainer stats = new StatContainer();
@@ -55,10 +80,18 @@ public final class ItemFactory {
         ItemMeta meta = stack.getItemMeta();
         if (meta == null) return;
         ItemRarity itemRarity = item.getRarity();
+        ItemTemplate itemTemplate = item.getTemplate();
 
-        String name = item.getTemplate().itemName;
+        String name = itemTemplate.itemName;
         List<String> lore = new ArrayList<>();
-        lore.add("DARK_GRAY" + itemRarity.getRawName() + "-Rank " + item.getTemplate().itemType.getName());
+        lore.add("DARK_GRAY" + itemRarity.getRawName() + "-Rank " + itemTemplate.itemType.getName());
+        List<Statistic> validStats = item.getStats().getAllValid();
+        if (!validStats.isEmpty()) {
+            lore.add("");
+            for (Statistic stat : validStats) {
+                lore.add(stat + ": " + item.getStat(stat));
+            }
+        }
 
         meta.setDisplayName(itemRarity.getColour() + name);
         meta.setLore(StringUtils.getColouredList(lore));

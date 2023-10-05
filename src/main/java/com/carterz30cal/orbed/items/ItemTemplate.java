@@ -4,7 +4,6 @@ import com.carterz30cal.orbed.maths.Range;
 import com.carterz30cal.orbed.stats.Statistic;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +27,7 @@ public class ItemTemplate {
     public Map<Statistic, Long> forcedStats = new HashMap<>();
     public Map<Statistic, Range> chosenStats = new HashMap<>();
 
-    public ItemTemplate(FileConfiguration data) {
+    public ItemTemplate(ConfigurationSection data) {
         templateIdentifier = data.getName();
 
         itemName = data.getString("name");
