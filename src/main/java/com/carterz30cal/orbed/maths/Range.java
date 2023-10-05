@@ -34,4 +34,11 @@ public final class Range {
         double f = Math.random()/Math.nextDown(1);
         return Math.round(f * upperBound + lowerBound * (1 - f));
     }
+
+    public static int getWithin(int lowerBound, int upperBound) {
+        if (lowerBound == upperBound) return lowerBound;
+
+        float f = (float)Math.random()/Math.nextDown(1);
+        return Math.round(f * upperBound + lowerBound * (1 - f));
+    }
 }
