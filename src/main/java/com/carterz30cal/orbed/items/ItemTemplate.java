@@ -2,6 +2,7 @@ package com.carterz30cal.orbed.items;
 
 import com.carterz30cal.orbed.maths.Range;
 import com.carterz30cal.orbed.stats.Statistic;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -19,8 +20,10 @@ public class ItemTemplate {
     private static Map<String, ItemTemplate> templates = new HashMap<>();
 
     public String itemName;
+    public ItemType itemType;
     public final String templateIdentifier;
     public ItemRarity baseRarity;
+    public final Material baseMaterial;
 
     public Map<Statistic, Long> forcedStats = new HashMap<>();
     public Map<Statistic, Range> chosenStats = new HashMap<>();
@@ -29,7 +32,9 @@ public class ItemTemplate {
         templateIdentifier = data.getName();
 
         itemName = data.getString("name");
+        itemType = ItemType.valueOf(data.getString("type", "WEAPON"));
         baseRarity = ItemRarity.valueOf(data.getString("rarity"));
+        baseMaterial = Material.valueOf(data.getString("material", "BARRIER"));
 
         if (data.contains("stats")) {
             if (data.contains("forced-stats")) {
