@@ -3,3 +3,7 @@ version: '${project.version}'
 main: com.carterz30cal.orbed.Orbed
 api-version: '1.20'
 authors: [carterz30cal]
+commands:
+  item:
+    description: "Generates an item using template-id."
+    aliases: ["i"]

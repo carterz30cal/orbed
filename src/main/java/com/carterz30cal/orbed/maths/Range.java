@@ -11,13 +11,13 @@ public final class Range {
 
     public Range(String range) {
         String[] split = range.split("-");
-        lowerBound = Long.getLong(split[0]);
+        lowerBound = Long.parseLong(split[0]);
 
         if (split.length == 1) {
             upperBound = lowerBound;
         }
         else {
-            upperBound = Long.getLong(split[1]);
+            upperBound = Long.parseLong(split[1]);
         }
     }
 

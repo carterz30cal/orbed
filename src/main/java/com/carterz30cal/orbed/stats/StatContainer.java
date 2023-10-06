@@ -2,10 +2,7 @@ package com.carterz30cal.orbed.stats;
 
 import com.carterz30cal.orbed.maths.StatValue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StatContainer implements Cloneable {
     private Map<Statistic, StatValue> stats = new HashMap<>();
@@ -32,6 +29,7 @@ public class StatContainer implements Cloneable {
             if (get(stat) != 0L) valid.add(stat);
         }
 
+        valid.sort(Comparator.comparingInt(Enum::ordinal));
         return valid;
     }
 

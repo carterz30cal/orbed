@@ -13,7 +13,7 @@ public final class StringUtils {
             String sa = s;
             sa = sa.replaceAll("DARK_GRAY", "" + ChatColor.DARK_GRAY);
             for (ChatColor colour : ChatColor.values()) {
-                sa = sa.replaceAll(colour.toString(), "" + colour);
+                sa = sa.replaceAll(colour.name(), "" + colour);
             }
             coloured.add(sa);
         }

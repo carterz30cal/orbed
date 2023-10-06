@@ -36,18 +36,18 @@ public class ItemTemplate {
         baseMaterial = Material.valueOf(data.getString("material", "BARRIER"));
 
         if (data.contains("stats")) {
-            if (data.contains("forced-stats")) {
+            if (data.contains("stats.forced-stats")) {
                 ConfigurationSection section = data.getConfigurationSection("stats.forced-stats");
                 assert section != null;
                 for (String key : section.getKeys(false)) {
                     forcedStats.put(Statistic.valueOf(key), section.getLong(key, 0));
                 }
             }
-            if (data.contains("chosen-stats")) {
+            if (data.contains("stats.chosen-stats")) {
                 ConfigurationSection section = data.getConfigurationSection("stats.chosen-stats");
                 assert section != null;
                 for (String key : section.getKeys(false)) {
-                    chosenStats.put(Statistic.valueOf(key), new Range(data.getString(key, "0")));
+                    chosenStats.put(Statistic.valueOf(key), new Range(section.getString(key, "0")));
                 }
             }
         }

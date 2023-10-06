@@ -6,6 +6,7 @@ import com.carterz30cal.orbed.stats.Statistic;
 import com.carterz30cal.orbed.utils.FileUtils;
 import com.carterz30cal.orbed.utils.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -69,7 +70,13 @@ public final class ItemFactory {
 
         assert meta != null;
         meta.getPersistentDataContainer().set(Item.kItemIdentifier, PersistentDataType.STRING, item.identifier.toString());
+
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ARMOR_TRIM,
+                ItemFlag.HIDE_DYE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
+
         stack.setItemMeta(meta);
+
+        updateItemMeta(stack);
 
         return stack;
     }
@@ -79,6 +86,7 @@ public final class ItemFactory {
         if (item == null) return;
         ItemMeta meta = stack.getItemMeta();
         if (meta == null) return;
+
         ItemRarity itemRarity = item.getRarity();
         ItemTemplate itemTemplate = item.getTemplate();
 
@@ -89,7 +97,7 @@ public final class ItemFactory {
         if (!validStats.isEmpty()) {
             lore.add("");
             for (Statistic stat : validStats) {
-                lore.add(stat + ": " + item.getStat(stat));
+                lore.add(stat + ": WHITE" + item.getStat(stat));
             }
         }
 

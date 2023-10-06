@@ -72,6 +72,8 @@ public class Item {
         this.stats = stats;
         this.templateIdentifier = templateIdentifier;
         this.rarityOffset = rarityOffset;
+
+        items.put(identifier, this);
     }
     public Item(UUID id) {
         identifier = id;
