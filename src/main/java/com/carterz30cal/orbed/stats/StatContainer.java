@@ -1,6 +1,7 @@
 package com.carterz30cal.orbed.stats;
 
 import com.carterz30cal.orbed.maths.StatValue;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -33,7 +34,7 @@ public class StatContainer implements Cloneable {
         return valid;
     }
 
-    public void add(StatContainer stats) {
+    public void add(@NotNull StatContainer stats) {
         for (Statistic stat : stats.stats.keySet()) {
             add(stat, stats.get(stat));
         }
