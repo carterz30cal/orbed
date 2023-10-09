@@ -1,0 +1,18 @@
+deformed-skeleton:
+  name: Deformed Skeleton
+  rank: E
+  themes: [DUNGEON]
+  enemyClass: EntityEnemyBasic
+  entity-root:
+    entity-type: SKELETON
+    properties: [PropertyWearArmour]
+    wear-armour:
+      helmet: IRON_HELMET
+    children:
+      deformed-head:
+        entity-type: BLOCK_DISPLAY
+        properties: [PropertyBlockDisplay]
+        parent-offset: 0.2,1.8,0
+        block-display:
+          block: SKELETON_SKULL
+          rotation: 0,0,35
