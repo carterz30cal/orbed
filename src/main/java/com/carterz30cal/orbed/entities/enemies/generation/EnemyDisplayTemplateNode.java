@@ -1,5 +1,6 @@
 package com.carterz30cal.orbed.entities.enemies.generation;
 
+import com.carterz30cal.orbed.entities.enemies.generation.properties.EntityProperty;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
@@ -8,6 +9,7 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,16 +28,29 @@ public class EnemyDisplayTemplateNode {
 
     public EntityType entityType;
     public Vector parentOffset;
-    public Vector eulerRotation;
+    //public Vector eulerRotation;
     public boolean invisible;
+    public List<EntityProperty> properties = new ArrayList<>();
 
     public EnemyDisplayTemplateNode(@NotNull ConfigurationSection section) {
         entityType = EntityType.valueOf(section.getString("entity-type"));
         parentOffset = section.getVector("parent-offset", new Vector(0,0,0));
-        eulerRotation = section.getVector("euler-rotation", new Vector(0,0,0));
+        //eulerRotation = section.getVector("euler-rotation", new Vector(0,0,0));
         invisible = section.getBoolean("invisible", false);
 
-        // TODO: Remove eulerRotation, then add properties.
+        for (String property : section.getStringList("properties")) {
+            String className = "com.carterz30cal.orbed.entities.enemies.generation.properties." + property;
+            try {
+                EntityProperty propClass = (EntityProperty)
+                        Class.forName(className)
+                                .getDeclaredConstructor(ConfigurationSection.class)
+                                .newInstance(section.getConfigurationSection("properties." + property));
+                properties.add(propClass);
+            } catch (NoSuchMethodException | ClassNotFoundException | InvocationTargetException |
+                     InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         ConfigurationSection children = section.getConfigurationSection("children");
         if (children != null) {
@@ -49,7 +64,7 @@ public class EnemyDisplayTemplateNode {
     public EnemyDisplayTemplateNode(EntityType entityType) {
         this.entityType = entityType;
         this.parentOffset = new Vector(0,0,0);
-        this.eulerRotation = new Vector(0,0,0);
+        //this.eulerRotation = new Vector(0,0,0);
         this.invisible = false;
     }
 
@@ -65,6 +80,8 @@ public class EnemyDisplayTemplateNode {
     public EnemyDisplayNode getNewNode(@NotNull Location location, @Nullable EnemyDisplayNode parent) {
         if (location.getWorld() == null) return null;
         Entity entity = location.getWorld().spawnEntity(location, entityType);
+
+        for (EntityProperty property : properties) property.applyProperty(entity);
 
         EnemyDisplayNode that = new EnemyDisplayNode(entity, parent);
         List<EnemyDisplayNode> hobgoblins = new ArrayList<>();
