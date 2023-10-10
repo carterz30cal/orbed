@@ -35,8 +35,20 @@ public final class ItemFactory {
         System.out.printf("Initialised %d unique items.%n", count);
     }
 
-    static {
+    /**
+     * Use this function if you don't care particularly about caching the item data.
+     * Items created using this method have a NONPERSIST tag, which means they will
+     * not be saved to a file.
+     *
+     * @param templateId What template will we be using?
+     * @param amount Quantity of the item in the stack we want.
+     * @return An ItemStack created using a temporary Item.
+     */
+    public static ItemStack createTempItemStack(String templateId, int amount) {
+        Item item = generateItem(ItemTemplate.getTemplate(templateId));
+        item.persistent = false;
 
+        return attachItemStack(item);
     }
 
     public static Item generateItem(ItemTemplate template) {

@@ -24,6 +24,8 @@ public class Item {
 
     public int rarityOffset;
 
+    public boolean persistent = true;
+
 
     public String getTemplateIdentifier() {
         return templateIdentifier;
@@ -72,6 +74,7 @@ public class Item {
         this.stats = stats;
         this.templateIdentifier = templateIdentifier;
         this.rarityOffset = rarityOffset;
+        this.persistent = true;
 
         items.put(identifier, this);
     }
